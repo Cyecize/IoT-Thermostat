@@ -30,38 +30,22 @@ void processData() {
     // Check if thermistorData is zero
     if (thermistorData == 0) {
         Serial.println("thermistorData is zero! Avoiding division by zero.");
-        delay(500);
         return;
     }
 
     R2 = R1 * (1023.0 / (float) thermistorData - 1.0); // Compute Thermistor resistance from analog read value
 
-    // Print intermediate values for debugging
-    // Serial.print("thermistorData: ");
-    // Serial.println(thermistorData);
-    // Serial.print("R2: ");
-    // Serial.println(R2);
-
     logR2 = log(R2); // Take natural log of the resistance
-
-    // Print logged resistance
-    // Serial.print("log(R2): ");
-    // Serial.println(logR2);
 
     // Steinhart-Hart equation to compute temperature in Kelvin
     temp = c1 + (c2 * logR2) + (c3 * logR2 * logR2 * logR2);
-    // Serial.print("Steinhart-Hart raw value: ");
-    // Serial.println(temp);
-
     temp = 1.0 / temp;
 
-    // Print temperature in Kelvin
     // Serial.print("Temperature in Kelvin: ");
     // Serial.println(temp);
 
     temp = temp - 273.15; // Convert temperature from Kelvin to Celsius
 
-    // Print temperature in Celsius
     Serial.print("Temperature in Celsius: ");
     Serial.println(temp);
 
@@ -80,5 +64,5 @@ void processData() {
 
 void loop() {
     processData();
-    delay(500); // Wait for 0.5 seconds before the next loop iteration
+    delay(500);
 }
